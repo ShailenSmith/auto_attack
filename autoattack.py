@@ -256,9 +256,9 @@ class AutoAttack():
                     self.norm, res.max(), (x_adv != x_adv).sum(), x_adv.max(), x_adv.min()))
                 self.logger.log('robust accuracy: {:.2%}'.format(robust_accuracy))
         if return_labels:
-            return x_adv, y_adv
+            return x_adv, y_adv, robust_accuracy
         else:
-            return x_adv
+            return x_adv, robust_accuracy
         
     def clean_accuracy(self, x_orig, y_orig, bs=250):
         n_batches = math.ceil(x_orig.shape[0] / bs)
