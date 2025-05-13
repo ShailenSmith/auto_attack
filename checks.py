@@ -97,9 +97,9 @@ def check_dynamic(model, x, is_tf_model=False, logger=None):
         msg = 'the check for dynamic defenses is not currently supported'
     else:
         msg = None
-        sys.settrace(tracefunc)
+        # sys.settrace(tracefunc) ### use our own debugger
         model(x)
-        sys.settrace(None)
+        # sys.settrace(None) ### use our own debugger
         #for k, v in funcs.items():
         #    print(k, v)
         if any([c > 0 for c in funcs.values()]):
