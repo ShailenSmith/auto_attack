@@ -242,10 +242,13 @@ class AutoAttack():
                     
             # check about square
             checks.check_square_sr(robust_accuracy_dict, logger=self.logger)
+            print("run state.to_disk(force=True)...")
             state.to_disk(force=True)
+            print("done.")
             
             # final check
             if self.verbose:
+                print("calculating res...")
                 if self.norm == 'Linf':
                     res = (x_adv - x_orig).abs().reshape(x_orig.shape[0], -1).max(1)[0]
                 elif self.norm == 'L2':
@@ -255,6 +258,7 @@ class AutoAttack():
                 self.logger.log('max {} perturbation: {:.5f}, nan in tensor: {}, max: {:.5f}, min: {:.5f}'.format(
                     self.norm, res.max(), (x_adv != x_adv).sum(), x_adv.max(), x_adv.min()))
                 self.logger.log('robust accuracy: {:.2%}'.format(robust_accuracy))
+                print("done.")
         if return_labels:
             return x_adv, y_adv, robust_accuracy
         else:
