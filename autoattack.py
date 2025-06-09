@@ -286,16 +286,16 @@ class AutoAttack():
         l_attacks = self.attacks_to_run
         adv = {}
         verbose_indiv = self.verbose
-        self.verbose = False
+        # self.verbose = False ### comment out so that we still see per-batch logging when attack is running
         
         for c in l_attacks:
             startt = time.time()
             self.attacks_to_run = [c]
-            x_adv, y_adv = self.run_standard_evaluation(x_orig, y_orig, bs=bs, return_labels=True)
+            x_adv, y_adv, robust_accuracy = self.run_standard_evaluation(x_orig, y_orig, bs=bs, return_labels=True)
             if return_labels:
-                adv[c] = (x_adv, y_adv)
+                adv[c] = (x_adv, y_adv, robust_accuracy)
             else:
-                adv[c] = x_adv
+                adv[c] = (x_adv, robust_accuracy)
             if verbose_indiv:    
                 acc_indiv  = self.clean_accuracy(x_adv, y_orig, bs=bs)
                 space = '\t \t' if c == 'fab' else '\t'
